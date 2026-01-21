@@ -76,3 +76,10 @@ const router = createRouter({
 })
 
 export default router
+
+/*
+* createWebHistory()要不要传参数的问题
+* 如果买了域名，`/`就是根目录问题不大咯
+* 如果挂载到github.io上，那'/'目录是'/echo-space' 下的子目录，会有问题
+* 于是为了健壮性，传参
+* vite会读取 `vite.config.ts` 获取配置，设置BASE_URL*/

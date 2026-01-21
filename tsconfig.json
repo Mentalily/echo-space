@@ -1,14 +1,24 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "allowJs": true,          // 👈 关键！允许 JS 和 TS 共存
-    "checkJs": false,         // 不检查旧 JS 文件的类型，防止旧代码飘红
-    "strict": true,           // 对新写的 TS 代码严格要求
-    "noImplicitAny": false    // 刚开始可以允许一点点“不规范”，方便迁移
-  }
+    // 下面这些保持原样
+    "allowJs": true,
+    "checkJs": false,
+    "strict": true,
+    "noImplicitAny": false
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
