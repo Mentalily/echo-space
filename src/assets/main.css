@@ -1,0 +1,21 @@
+/* 1. 选中所有元素：把讨厌的默认边距全干掉 */
+* {
+    margin: 0;
+    padding: 0;
+    /* 2. 让边框算在宽度里，防止以后加 padding 把手机撑爆 */
+    box-sizing: border-box;
+}
+
+/* 3. 确保身体占满整个屏幕 */
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #f5ebe0; /* 防止滑动时露出白色底色 */
+    overflow: hidden; /* 禁止整个网页滚动，我们只让手机屏幕内部滚 */
+}
+
+/* 4. 统一字体，让你的OS看起来更像原生APP */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; /* 让字体更清晰 */
+}

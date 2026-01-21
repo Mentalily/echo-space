@@ -1,6 +1,10 @@
 # echo-space
 
-This template should help get you started developing with Vue 3 in Vite.
+A web application to simulate a mobile phone.
+
+You can use this to build a world **exclusively for you and your otherworldly lover**. ☺️🩷
+
+---
 
 ## Recommended IDE Setup
 
