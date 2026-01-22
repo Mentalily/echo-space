@@ -10,8 +10,8 @@
 html, body {
     width: 100%;
     height: 100%;
-    background-color: #f5ebe0; /* 防止滑动时露出白色底色 */
-    overflow: hidden; /* 禁止整个网页滚动，我们只让手机屏幕内部滚 */
+    background-color: #f0f2f5; /* 防止滑动时露出白色底色 */
+     /* 禁止整个网页滚动，我们只让手机屏幕内部滚 */
 }
 
 /* 4. 统一字体，让你的OS看起来更像原生APP */

@@ -9,7 +9,7 @@ import router from './router'
 const app = createApp(App)
 
 app.use(createPinia())
-app.use(router)
+app.use(router)                // App获悉路由规则
 
 app.mount('#app') // 挂载到 <div id='app'></div> 上
 

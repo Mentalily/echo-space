@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
     "env.d.ts",
     "src/**/*",
@@ -10,7 +10,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    // 下面这些保持原样
+    "target": "ESNext",
+    "module": "ESNext",
     "allowJs": true,
     "checkJs": false,
     "strict": true,

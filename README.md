@@ -6,7 +6,15 @@ You can use this to build a world **exclusively for you and your otherworldly lo
 
 ---
 
-## 嗯……框架设想
+## 近期Todo
+
+- [ ] 主页
+- [ ] 状态栏
+- [ ] 锁屏
+- [ ] ChatApp
+- [ ] ...
+
+## 框架设想
 
 状态栏（固定不隐藏）
 左边
