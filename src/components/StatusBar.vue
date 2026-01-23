@@ -9,8 +9,8 @@
 
     <div class="center-wrapper">
       <div class="center-area">
-        <div class="perspective-tag" @click="changePerspective">{{ perspective }}</div>
-        <div class="status-tag" @click.stop="toggleMenu">{{ status }}</div>
+        <div class="perspective-tag" @click="changePerspective">{{ currentProfile.name }}</div>
+        <div class="status-tag" @click.stop="toggleMenu">{{ currentProfile.status }}</div>
       </div>
       <div v-if="isMenuOpen" class="dropdown-menu">
 <!--        <div class="menu-title">选择状态</div>-->
@@ -19,7 +19,7 @@
             class="grid-item"
             v-for="item in statusList"
             :key="item.label"
-            :class="{ active: status === item.icon }"
+            :class="{ active: currentProfile.status === item.icon }"
             @click="selectStatus(item)"
           >
             <div class="status-icon">{{ item.icon }}</div>
@@ -58,7 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue"
+import useSystemStore from '@/stores/useSystemStore' // 引入仓库
+import { storeToRefs } from 'pinia' // 引入解构工具
+
+const systemStore = useSystemStore()
+const { currentProfile } = storeToRefs(systemStore) // 获取当前视角的所有数据
 
 // ===========================
 // 1. 🕒 时间逻辑
@@ -98,11 +103,8 @@ onUnmounted(() => {
 // ===========================
 // 2. 🎮 视角与状态控制
 // ===========================
-const perspective = ref("我")
-const status = ref('🙂')
 const isMenuOpen = ref(false)
 
-const perspectiveList = ['我', '你']
 const statusList = [
   { icon: '🙂', label: '开心' },
   { icon: '🥰', label: '幸福' },
@@ -118,11 +120,9 @@ const statusList = [
   { icon: '🎤', label: '娱乐' }
 ]
 
-let pIndex = 0
 
 const changePerspective = () => {
-  pIndex = (pIndex + 1) % 2
-  perspective.value = `${perspectiveList[pIndex]}`
+  systemStore.togglePerspective()
 }
 
 const toggleMenu = () => {
@@ -135,7 +135,7 @@ const closeMenu = () => {
 }
 
 const selectStatus = (item) => {
-  status.value = item.icon
+  systemStore.updateStatusEmoji(item.icon)
 }
 
 // ===========================
@@ -195,6 +195,7 @@ const toggleEasterEgg = () => {
   justify-content: center;
   align-items: center;
   z-index: 20;
+  cursor: pointer;
 }
 
 .dropdown-menu {
