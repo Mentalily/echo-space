@@ -1,12 +1,34 @@
 <template>
+  <div v-if="isMenuOpen" class="mask" @click="closeMenu">
+    <!-- 透明遮罩，实现点击空白处关闭菜单的功能 -->
+  </div>
   <div class="status-bar">
     <div class="left-area">
       <span class="time-text"> {{currentTime}} </span>
     </div>
-    <div class="center-area">
-      <div>视角</div>
-      <div>状态</div>
+
+    <div class="center-wrapper">
+      <div class="center-area">
+        <div class="perspective-tag" @click="changePerspective">{{ perspective }}</div>
+        <div class="status-tag" @click.stop="toggleMenu">{{ status }}</div>
+      </div>
+      <div v-if="isMenuOpen" class="dropdown-menu">
+<!--        <div class="menu-title">选择状态</div>-->
+        <div class="menu-grid">
+          <div
+            class="grid-item"
+            v-for="item in statusList"
+            :key="item.label"
+            :class="{ active: status === item.icon }"
+            @click="selectStatus(item)"
+          >
+            <div class="status-icon">{{ item.icon }}</div>
+            <div class="status-label">{{ item.label }}</div>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="right-area">
       <div class="ecg-container" @click="toggleEasterEgg">
         <!-- 宽50 高20的画布 -->
@@ -43,12 +65,26 @@ import {onMounted, onUnmounted, ref} from "vue";
 // ===========================
 const currentTime = ref('')
 let intervalID: number | undefined
+let duration = 30
 
 const updateTime = ()=> {
   const now = new Date()
   const hours = String(now.getHours()).padStart(2, ' ')
   const minutes = String(now.getMinutes()).padStart(2, '0')
   currentTime.value = `${hours}:${minutes}`
+
+  // 特殊时间触发彩蛋
+  const time = currentTime.value
+  if (time == '05:20' || time == '13:14' || time == '20:20') {
+    isHeartBeating.value = true
+  } else if (isEasterEgg.value && duration) {
+    duration -= 1
+  } else if (isEasterEgg.value) {
+    duration = 30
+    isEasterEgg.value = false
+  } else {
+    isHeartBeating.value = false
+  }
 }
 
 onMounted(() => {
@@ -60,19 +96,73 @@ onUnmounted(() => {
 })
 
 // ===========================
+// 2. 🎮 视角与状态控制
+// ===========================
+const perspective = ref("我")
+const status = ref('🙂')
+const isMenuOpen = ref(false)
+
+const perspectiveList = ['我', '你']
+const statusList = [
+  { icon: '🙂', label: '开心' },
+  { icon: '🥰', label: '幸福' },
+  { icon: '😢', label: '伤心' },
+  { icon: '🥺', label: '委屈' },
+  { icon: '😠', label: '生气' },
+  { icon: '💭', label: '发呆' },
+  { icon: '💤', label: '困困' },
+  { icon: '💻', label: '忙碌' },
+  { icon: '🍷', label: '微醺' },
+  { icon: '🔕', label: '勿扰' },
+  { icon: '🛏️', label: '睡觉' },
+  { icon: '🎤', label: '娱乐' }
+]
+
+let pIndex = 0
+
+const changePerspective = () => {
+  pIndex = (pIndex + 1) % 2
+  perspective.value = `${perspectiveList[pIndex]}`
+}
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+  console.log(isMenuOpen.value)
+}
+
+const closeMenu = () => {
+  isMenuOpen.value = false
+}
+
+const selectStatus = (item) => {
+  status.value = item.icon
+}
+
+// ===========================
 // 3. 💓 心电图彩蛋逻辑
 // ===========================
 // 控制显示折线还是爱心
 const isHeartBeating = ref(false)
+const isEasterEgg = ref(false)
 
 const toggleEasterEgg = () => {
   isHeartBeating.value = !isHeartBeating.value
   console.log(isHeartBeating.value)
+  isEasterEgg.value = isHeartBeating.value
 }
 
 </script>
 
 <style scoped>
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
 .status-bar {
   width: 100%;
   height: 40px;
@@ -82,8 +172,8 @@ const toggleEasterEgg = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   font-size: 16px;
+  position: relative;
 }
 
 .left-area {
@@ -96,9 +186,81 @@ const toggleEasterEgg = () => {
   font-family: "Helvetica Neue", sans-serif;
 }
 
+.center-wrapper {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 45px;
+  background-color: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(10px);
+  width: 240px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 12px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.grid-item:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.grid-item.active { /* 同时选中两个类 */
+  background-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 4px 12px rgba(251, 221, 221, 0.93);
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* 选中状态下的文字和图标颜色加深 */
+.grid-item.active .status-label {
+  color: #ffabc4; /* 变成粉红色 */
+  font-weight: bold;
+}
+
+/*
+.dropdown-menu::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  background: inherit;
+  backdrop-filter: inherit;
+  clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}*/
+
 .center-area {
   display: flex;
   flex-direction: row;
+  gap: 5px;
 }
 
 .right-area {
@@ -175,6 +337,7 @@ const toggleEasterEgg = () => {
   transform-origin: center center;
   animation: heartbeat-boom 1.2s ease-in-out infinite alternate;
 }
+
 @keyframes heartbeat-boom {
   0% {
     transform: scale(0.9); /* 稍微缩小 */
