@@ -53,7 +53,7 @@ const mainApps = ref([
   { name: '天气', icon: '⛅', color: '#32ade6', route: '' },
   { name: '备忘录', icon: '📝', color: '#ffd60a', route: '' },
   { name: '钱包', icon: '💰', color: '#30d158', route: '' },
-  { name: '设置', icon: '⚙️', color: '#8e8e93', route: '' },
+  { name: '设置', icon: '⚙️', color: '#8e8e93', route: '/set' },
   { name: '更多', icon: '📂', color: '#1c1c1e', route: '' },
 ])
 

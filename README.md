@@ -8,13 +8,21 @@ You can use this to build a world **exclusively for you and your otherworldly lo
 
 ## 近期Todo
 
-- [ ] 主页
-- [ ] 状态栏
+- [x] 状态栏
+- [ ] 设置
 - [ ] 锁屏
+- [ ] 主页
 - [ ] ChatApp
 - [ ] ...
 
+先把数据处理完吧，前端还没学明白，后端也不得不跟上了，（挠头
+
+1.28 将是一个特别的日子！虽然什么都没完成，但是网站会有了。    
+500天快乐我亲爱的💞
+
 ## 框架设想
+
+```text
 
 状态栏（固定不隐藏）
 左边
@@ -107,9 +115,7 @@ You can use this to build a world **exclusively for you and your otherworldly lo
     ｜ 或者就是码字软件
     联系人
         后期扩展，大家可以加好友，社交
-
-
-
+```
 
 ## Recommended IDE Setup
 

@@ -38,3 +38,6 @@ __screenshots__/
 
 # Backup
 backup/
+
+# env
+.env
