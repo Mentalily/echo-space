@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia'
-import {computed, ref} from 'vue'
+import { computed, ref } from 'vue'
+import { supabase } from '@/supabase'
 
-
-// 我快死过去了，谁来救救这个小白
-// 谁来管管……我真要恨你了TS
 export interface UserProfile {
     id: string
     name: string
@@ -15,6 +13,18 @@ export interface UserProfile {
 type PerspectiveKeys = 'I' | 'U'
 
 const useSystemStore = defineStore('system', () => {
+
+    // 简单模拟一下逻辑，后续再调整
+    const syncUserConfig = async () => {
+        // 获取当前用户
+        const { data: {user} } = await supabase.auth.getUser()
+        if (!user) return
+
+        const { data } = supabase.storage
+            .from('settings')
+            .getPublicUrl(`${user.id}/wallpaper-me.jpg`)
+    }
+
     const currentPerspectiveID = ref<'I' | 'U'>('I')
     const profiles = ref<Record<PerspectiveKeys, UserProfile>>({
         I: {
@@ -48,4 +58,5 @@ const useSystemStore = defineStore('system', () => {
         updateStatusEmoji,
     }
 })
+
 export default useSystemStore
