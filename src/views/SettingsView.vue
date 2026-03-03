@@ -56,7 +56,7 @@
       <span>拖动应用改变布局；可上传图标、修改应用名称；可选择是否启用应用；小组件大小2x2</span>
     </div>
     <div class="setting-card">
-      <draggable
+      <!-- <draggable
         v-model=""
         item-key=""
         handle=".drag-handle"
@@ -74,7 +74,7 @@
             <BaseToggle v-model="element.showCapsule" />
           </div>
         </template>
-      </draggable>
+      </draggable> -->
     </div>
     <h2> 桌宠小组件 </h2>
     <div class="setting-card"></div>
