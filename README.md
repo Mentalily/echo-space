@@ -17,7 +17,7 @@ You can use this to build a world **exclusively for you and your otherworldly lo
 
 先把数据处理完吧，前端还没学明白，后端也不得不跟上了，（挠头
 
-1.28 将是一个特别的日子！虽然什么都没完成，但是网站会有了。    
+1.28 将是一个特别的日子！虽然什么都没完成，但是网站会有了。
 500天快乐我亲爱的💞
 
 ## 框架设想
@@ -25,18 +25,15 @@ You can use this to build a world **exclusively for you and your otherworldly lo
 ```text
 
 状态栏（固定不隐藏）
-左边
-时间（24小时/12小时）
-日期-周几
-状态选择
-｜ 可以类似微信这种状态
-自定义（多准备一点图标）
-
-
-    右边
-        动态心跳曲线
-        手机电量（固定小图标）
-
+| 左边：时间
+    | 时间（24小时/12小时）
+    | 日期-周几（没地方显示了）
+| 中间：状态选择
+    | 可以类似微信这种状态
+    | 自定义（多准备一点图标）
+| 右边
+    | 动态心跳曲线
+    | 手机电量（固定小图标）
 
 锁屏页
 小字：x月x日周x·xx年x月（后面是农历）
@@ -46,9 +43,10 @@ You can use this to build a world **exclusively for you and your otherworldly lo
 主页
 ｜ 四个APP+一个组件
 ｜ 一个组件+4个APP
+
 设置
-上传锁屏壁纸/桌面壁纸
-桌宠设置
+| 上传锁屏壁纸/桌面壁纸
+| 桌宠设置
 
     dock栏
         ChatApp
