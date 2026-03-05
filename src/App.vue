@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="phone-case" :style="phoneStyle">
+  <div class="container" :class="{'mobile-case' : isMobile}">
+    <div class="phone-case" :class="{'mobile-case' : isMobile}" :style="phoneStyle">
       <StatusBar />
       <main class="screen-content">
         <RouterView /> <!-- 引入路由显示页面，根据规则放入页面组件 -->
@@ -102,6 +102,10 @@ const phoneStyle = computed(() => {
   -ms-overflow-style: none; /* IE */
 }
 
+.container.mobile-case {
+  padding: 0;
+}
+
 .phone-case {
   width: 375px;
   height: 812px;
@@ -113,6 +117,15 @@ const phoneStyle = computed(() => {
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease-out;
+}
+
+.phone-case.mobile-case {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
 }
 
 .screen-content {
