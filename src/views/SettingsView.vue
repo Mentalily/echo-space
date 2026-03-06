@@ -15,7 +15,7 @@
           </div>
           <div class="user-options">
             <button class="kill-account-btn">注销账号</button>
-            <button class="log-out-btn">退出登录</button>
+            <button class="log-out-btn" @click="toggleLogin">退出登录</button>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
             <span class="explain-text">游客访问数据将保存在本地。</span>
           </div>
         </div>
-        <button class="log-in-btn">登录/注册</button>
+        <button class="log-in-btn" @click="toggleLogin()">登录/注册</button>
       </div>
     </div>
     <h2> 个性化设置 </h2>
@@ -82,11 +82,18 @@
 </template>
 
 <script setup lang="ts">
-// import useSystemStore from '@/stores/useSystemStore'
+import useSystemStore from '@/stores/useSystemStore';
+import { storeToRefs } from 'pinia';
 import {ref} from "vue";
 import BaseToggle from "@/components/BaseToggle.vue";
 
-let isLoggedIn = ref(false);
+const systemStore = useSystemStore();
+
+// 解构数据需要使用 `storeToRefs()`保证响应式
+const { isLoggedIn } = storeToRefs(systemStore);
+// 方法可以直接解构
+const { toggleLogin } = systemStore;
+
 </script>
 
 <style scoped>

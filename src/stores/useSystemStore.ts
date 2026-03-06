@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { supabase } from '@/supabase'
+// import { supabase } from '@/supabase'
 
 export interface ProfileConfig {
     theme: {                // 主题设置
@@ -68,17 +68,26 @@ type PerspectiveKeys = 'I' | 'U'
 
 const useSystemStore = defineStore('system', () => {
 
-    // 简单模拟一下逻辑，后续再调整
-    const syncUserConfig = async () => {
-        // 获取当前用户
-        const { data: {user} } = await supabase.auth.getUser()
-        if (!user) return
+    // 先实现本地版，再使用云端数据库
 
-        const { data } = supabase.storage
-            .from('settings')
-            .getPublicUrl(`${user.id}/wallpaper-me.jpg`)
+    // 简单模拟一下逻辑，后续再调整
+    // const syncUserConfig = async () => {
+        // 获取当前用户
+        // const { data: {user} } = await supabase.auth.getUser()
+        // if (!user) return
+
+        // const { data } = supabase.storage
+        //     .from('settings')
+        //     .getPublicUrl(`${user.id}/wallpaper-me.jpg`)
+    // }
+
+    // 简单登录状态管理
+    const isLoggedIn = ref(false)
+    const toggleLogin = () => {
+        isLoggedIn.value = !isLoggedIn.value
     }
 
+    // 双视角管理
     const currentPerspectiveID = ref<'I' | 'U'>('I')
     const profiles = ref<Record<PerspectiveKeys, UserProfile>>({
         I: {
@@ -92,20 +101,25 @@ const useSystemStore = defineStore('system', () => {
             status: '🙂',
         }
     })
+
     // 获取当前视角的所有数据
     const currentProfile = computed((): UserProfile => {
         return profiles.value[currentPerspectiveID.value] || profiles.value['I']
     })
+
     // 切换视角
     const togglePerspective = () => {
         currentPerspectiveID.value = currentPerspectiveID.value === 'I' ? 'U' : 'I'
     }
+
     // 更新状态
     const updateStatusEmoji = (emoji: string) => {
         profiles.value[currentPerspectiveID.value].status = emoji
     }
 
     return {
+        isLoggedIn,
+        toggleLogin,
         currentPerspectiveID,
         currentProfile,
         togglePerspective,
