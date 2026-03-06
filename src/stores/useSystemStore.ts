@@ -57,10 +57,11 @@ export interface ProfileConfig {
 }
 
 export interface UserProfile {
-    id: string
-    name: string
-    status: string
-    // wallpaper: string
+    id: string          // id: I/U 区分是本人视角还是对面视角
+    name: string        // name: 名字可以修改
+    status: string      // status: 状态，可选择emoji
+    wallpaper: string   // wallpaper: 壁纸
+    // lockscreen: string
     // apps: string[]  // 可能App列表（头秃中）
 }
 
@@ -94,11 +95,13 @@ const useSystemStore = defineStore('system', () => {
             id: 'I',
             name: '我',
             status: '🙂',
+            wallpaper: '',
         },
         U: {
             id: 'U',
             name: '你',
             status: '🙂',
+            wallpaper: ''
         }
     })
 
@@ -117,6 +120,11 @@ const useSystemStore = defineStore('system', () => {
         profiles.value[currentPerspectiveID.value].status = emoji
     }
 
+    // 更新壁纸
+    const updateWallpaper = (base64Url: string) => {
+        profiles.value[currentPerspectiveID.value].wallpaper = base64Url
+    }
+
     return {
         isLoggedIn,
         toggleLogin,
@@ -124,6 +132,7 @@ const useSystemStore = defineStore('system', () => {
         currentProfile,
         togglePerspective,
         updateStatusEmoji,
+        updateWallpaper
     }
 })
 

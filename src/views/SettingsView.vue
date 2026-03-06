@@ -32,10 +32,16 @@
       </div>
     </div>
     <h2> 个性化设置 </h2>
+    <input type="file" accept="image/*" @change="onWallpaperSelected" />
+      <div v-if="currentProfile.wallpaper">
+        <p>当前视角 ({{ currentProfile.name }}) 的壁纸预览：</p>
+        <img :src="currentProfile.wallpaper" alt="壁纸" style="width: 150px; border-radius: 8px;">
+      </div>
     <div class="upload">
       <div class="upload-wallpaper">
         <img class="desc-icon" src="@/assets/baseIcons/document.png" alt="upload">
         <span>上传壁纸</span>
+
       </div>
       <div class="upload-lockscreen">
         <img class="desc-icon" src="@/assets/baseIcons/document.png" alt="upload">
@@ -90,9 +96,28 @@ import BaseToggle from "@/components/BaseToggle.vue";
 const systemStore = useSystemStore();
 
 // 解构数据需要使用 `storeToRefs()`保证响应式
-const { isLoggedIn } = storeToRefs(systemStore);
+const { isLoggedIn, currentProfile } = storeToRefs(systemStore);
 // 方法可以直接解构
-const { toggleLogin } = systemStore;
+const { toggleLogin, updateWallpaper } = systemStore;
+
+const onWallpaperSelected = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+
+  if (!file) return // 用户点开又取消了
+
+  const reader = new FileReader()
+
+  reader.onload = (e) => {
+    const base64String = e.target?.result as string
+    console.log(currentProfile.value.wallpaper)
+
+    updateWallpaper(base64String)
+  }
+
+  reader.readAsDataURL(file)
+
+}
 
 </script>
 
